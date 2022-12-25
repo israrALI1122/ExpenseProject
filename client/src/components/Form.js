@@ -17,6 +17,7 @@ export default function Form() {
     }
 
     //categories addition
+    const [selectVal , setSelectVal] = useState("")//Value of select
 
     const [data , setData] = useState("")
     const [newEntry , setNewEntry]= useState([])
@@ -51,7 +52,7 @@ export default function Form() {
 
 
 
-        <select>
+        <select onChange={(e)=>(setSelectVal(e.target.value))}>
         <option>food</option>
                   <option>fuel</option>
                   <option>Bills</option>
@@ -61,8 +62,8 @@ export default function Form() {
                   <option>Transport</option>
                   <option>Medical</option>
                   <option>Family</option>
-            {newEntry.map((cur)=>{
-                  return <option>{cur}</option> 
+            {newEntry.map((opt)=>{
+                  return <option key={opt} value={opt}>{opt}</option> 
             })}
         </select>
 
@@ -75,7 +76,7 @@ export default function Form() {
         <form id='form' onSubmit={handleSubmit(onSubmit)}>
             <div className="grid gap-4">
                 <div className="input-group">
-                    <input type="text" {...register('name')} placeholder='Sallary, House Rend, SIP' className='form-input' />
+                    <input type="text" {...register('name')} placeholder='Sallary, House Rend, SIP' className='form-input' value={selectVal}/>
                 </div>
                 <select className='form-input' {...register('type')}>
                     <option value="Investment" defaultValue>Investment</option>
