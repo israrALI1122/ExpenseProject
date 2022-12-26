@@ -34,7 +34,7 @@ export default function Graph() {
             </div>   
 
             <div className="flex flex-col py-10 gap-4">
-                {/* Labels */}
+                
                 <Labels></Labels>
             </div> 
         </div>

@@ -1,5 +1,5 @@
 import React from 'react'
-import 'boxicons';
+// import 'boxicons';
 import {default as api} from '../store/apiSlice';
 
 export default function List() {
