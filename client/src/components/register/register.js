@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import "./register.css"
+import './register.css'
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
 
@@ -28,7 +28,7 @@ const Register = () => {
             axios.post("http://localhost:8081/register", user)
             .then( res => {
                 alert(res.data.message)
-                history.push("/login")
+                history("/login")
             })
         } else {
             alert("invlid input")
@@ -46,7 +46,7 @@ const Register = () => {
             <input type="password" name="reEnterPassword" value={user.reEnterPassword} placeholder="Re-enter Password" onChange={ handleChange }></input>
             <div className="button" onClick={register} >Register</div>
             <div>or</div>
-            <div className="button" onClick={() => history.push("/login")}>Login</div>
+            <div className="button" onClick={() => history("/login")}>Login</div>
         </div>
     )
 }

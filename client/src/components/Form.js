@@ -76,7 +76,7 @@ export default function Form() {
         <form id='form' onSubmit={handleSubmit(onSubmit)}>
             <div className="grid gap-4">
                 <div className="input-group">
-                    <input type="text" {...register('name')} placeholder='Sallary, House Rend, SIP' className='form-input' value={selectVal}/>
+                    <input type="text" {...register('name')}placeholder='Sallary, House Rend, SIP' className='form-input' value={selectVal} onChange={(e)=>(setSelectVal(e.target.value))}/>
                 </div>
                 <select className='form-input' {...register('type')}>
                     <option value="Investment" defaultValue>Investment</option>

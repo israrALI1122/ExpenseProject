@@ -7,7 +7,7 @@
 :root{
   --color-yollow : #f9c74f;
   --color-purple: #9d4edd;
-  background-color: #e5f274ba;
+  
 }
 
 * > *{
@@ -19,6 +19,9 @@
 .App {
   text-align: center;
   padding: 4em 0;
+  background-color: #e5f274ba;
+
+ 
 }
 
 .bg-yellow{
