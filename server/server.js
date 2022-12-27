@@ -2,6 +2,8 @@ const express = require("express")
 const app = express();
 const cors = require('cors');
 const mongoose = require('mongoose')
+const jwt = require("jsonwebtoken")
+
 
 require('dotenv').config({path:"./config.env"})
 
@@ -26,20 +28,49 @@ const con = require('./db/connection.js')
 const userSchema = new mongoose.Schema({
     name: String,
     email: String,
-    password: String
+    password: String,
+    tokens:[
+        {
+            token:{
+                type: String,
+                required:true
+            }
+        }
+    ]
 })
 
+//we are generating 
+userSchema.methods.generateAuthToken = async function (){
+    try{
+
+        let token = jwt.sign({_id: this._id}, process.env.SECREt_KEY)
+        this.tokens = this.tokens.concat({token:token})
+        this.save();
+        return token;
+
+    } catch (err){
+        console.log(err);
+    }
+}
 
 
 const User = new mongoose.model("User", userSchema)
 
 //Routes
-app.post("/login", (req, res)=> {
+app.post("/login",  (req, res)=> {
     const { email, password} = req.body
+    let token;
     User.findOne({ email: email}, (err, user) => {
+
+
+
         if(user){
             if(password === user.password ) {
                 res.send({message: "Login Successfull", user: user})
+                token =  user.generateAuthToken()
+                console.log(token);
+               
+                
             } else {
                 res.send({ message: "Password didn't match"})
             }
@@ -102,7 +133,7 @@ con.then(db =>{
 
 
 }).catch(error =>{
-    console.log(`connection error ${error}`);
+    console.log(`connection error  ${error}`);
 })
 
 
