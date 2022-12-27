@@ -46,6 +46,7 @@ userSchema.methods.generateAuthToken = async function (){
         let token = jwt.sign({_id: this._id}, process.env.SECREt_KEY)
         this.tokens = this.tokens.concat({token:token})
         this.save();
+        
         return token;
 
     } catch (err){
@@ -57,18 +58,24 @@ userSchema.methods.generateAuthToken = async function (){
 const User = new mongoose.model("User", userSchema)
 
 //Routes
-app.post("/login",  (req, res)=> {
+app.post("/login", async (req, res)=> {
     const { email, password} = req.body
     let token;
     User.findOne({ email: email}, (err, user) => {
-
+        
+        token =  user.generateAuthToken()
+        console.log(token);
+        res.cookie("jsonwebtoke",token,{
+            expires: new Date(Date.now() + 25892000000),
+            httpOnly:true,
+            // secure:true
+            
+        })
 
 
         if(user){
             if(password === user.password ) {
                 res.send({message: "Login Successfull", user: user})
-                token =  user.generateAuthToken()
-                console.log(token);
                
                 
             } else {
@@ -102,15 +109,6 @@ app.post("/register", (req, res)=> {
     })
     
 }) 
-
-
-
-
-
-
-
-
-
 
 
 
